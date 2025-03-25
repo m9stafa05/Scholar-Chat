@@ -9,9 +9,7 @@ import 'package:scholar_chat/pages/regester_page.dart';
 //flutter build web --release && firebase deploy --only hosting -m 'V 1.0.1'
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const ScholarChat());
 }
