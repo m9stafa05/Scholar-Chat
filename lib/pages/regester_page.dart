@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:scholar_chat/constants.dart';
 import 'package:scholar_chat/helper/show_snack_bar.dart';
+import 'package:scholar_chat/pages/chat_page.dart';
 import 'package:scholar_chat/widgets/custam_form_textfield.dart';
 import 'package:scholar_chat/widgets/custom_button.dart';
 
@@ -34,7 +35,7 @@ class _RegesterPageState extends State<RegesterPage> {
           automaticallyImplyLeading: false,
           title: Center(
             child: Text(
-              'Scholar Caht',
+              kTitle,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 25,
@@ -50,10 +51,7 @@ class _RegesterPageState extends State<RegesterPage> {
             key: formKey,
             child: ListView(
               children: [
-                Image(
-                  image: AssetImage('assets/images/scholar.png'),
-                  height: 200,
-                ),
+                Image(image: AssetImage(kLogo), height: 200),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -100,6 +98,11 @@ class _RegesterPageState extends State<RegesterPage> {
                           context,
                           message: 'Successfully regestered',
                           color: Colors.green,
+                        );
+                        Navigator.pushNamed(
+                          // ignore: use_build_context_synchronously
+                          context,
+                          ChatPage.id,
                         );
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'email-already-in-use') {

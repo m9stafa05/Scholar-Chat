@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:scholar_chat/constants.dart';
 import 'package:scholar_chat/helper/show_snack_bar.dart';
+import 'package:scholar_chat/pages/chat_page.dart';
 import 'package:scholar_chat/pages/regester_page.dart';
 import 'package:scholar_chat/widgets/custam_form_textfield.dart';
 import 'package:scholar_chat/widgets/custom_button.dart';
@@ -32,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         automaticallyImplyLeading: false,
         title: Center(
           child: Text(
-            'Scholar Caht',
+            kTitle,
             style: TextStyle(
               color: Colors.white,
               fontSize: 25,
@@ -50,10 +51,7 @@ class _LoginPageState extends State<LoginPage> {
             key: formKey,
             child: ListView(
               children: [
-                Image(
-                  image: AssetImage('assets/images/scholar.png'),
-                  height: 200,
-                ),
+                Image(image: AssetImage(kLogo), height: 200),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -93,42 +91,42 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {
                         isLoading = true;
                       });
-                      final currentContext =
-                          context; // Store context in a local variable
+
                       try {
                         await LogInUser();
                         ShowSnackBar(
-                          currentContext,
-                          message: 'Successfully registered',
+                          context,
+                          message: 'Successfully Logged in',
                           color: Colors.green,
                         );
+                        Navigator.pushNamed(context, ChatPage.id);
                       } on FirebaseAuthException catch (e) {
                         print(e.code);
                         if (e.code == 'user-not-found') {
                           ShowSnackBar(
-                            currentContext,
+                            context,
                             message: 'User not found',
                           );
                         } else if (e.code == 'wrong-password') {
                           ShowSnackBar(
-                            currentContext,
+                            context,
                             message: 'Wrong password',
                           );
                         } else if (e.code == 'invalid-email') {
                           ShowSnackBar(
-                            currentContext,
+                            context,
                             message: 'Please enter a valid email',
                           );
                         } else if (e.code == 'too-many-requests') {
                           ShowSnackBar(
-                            currentContext,
+                            context,
                             message:
                                 'Too many requests. Please try again later.',
                           );
                         }
                       } catch (e) {
                         ShowSnackBar(
-                          currentContext,
+                          context,
                           message: 'Oops! Something went wrong',
                         );
                       }
