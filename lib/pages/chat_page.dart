@@ -1,102 +1,145 @@
 import 'package:flutter/material.dart';
 import 'package:scholar_chat/constants.dart';
+import 'package:scholar_chat/models/message.dart';
 import 'package:scholar_chat/widgets/chat_bubble.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ChatPage extends StatelessWidget {
-  ChatPage({super.key});
+// ignore: must_be_immutable
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
   static String id = 'ChatPage';
-  final List<String> messages = [
-    "Hello!",
-    "How are you?",
-    "This is a longer message to test the dynamic width of the chat bubble.",
-    "Short msg",
-    "Flutter is awesome!",
-    "Hello!",
-    "How are you?",
-    "This is a longer message to test the dynamic width of the chat bubble.",
-    "Short msg",
-    "Flutter is awesome!",
-    "Hello!",
-    "How are you?",
-    "This is a longer message to test the dynamic width of the chat bubble.",
-    "Short msg",
-    "Flutter is awesome!",
-    "Hello!",
-    "How are you?",
-    "This is a longer message to test the dynamic width of the chat bubble.",
-    "Short msg",
-    "Flutter is awesome!",
-  ];
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  CollectionReference messages = FirebaseFirestore.instance
+      .collection(kCollectionMessages);
+
+  TextEditingController messageController = TextEditingController();
+  ScrollController scrollController =
+      ScrollController(); // Added ScrollController
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: kPrimaryColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(image: AssetImage(kLogo), height: 50),
-            Text(
-              '  Chat',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Pacifico',
+    return StreamBuilder<QuerySnapshot>(
+      stream:
+          messages
+              .orderBy(kCreatedTime, descending: true)
+              .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Message> messagesList = [];
+          for (int i = 0; i < snapshot.data!.docs.length; i++) {
+            messagesList.add(
+              Message.fromJson(snapshot.data!.docs[i]),
+            );
+          }
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: kPrimaryColor,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(image: AssetImage(kLogo), height: 50),
+                  Text(
+                    '  Chat',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Pacifico',
+                    ),
+                  ),
+                ],
               ),
+              elevation: 50,
+              shadowColor: Colors.black,
             ),
-          ],
-        ),
-        elevation: 50,
-        shadowColor: Colors.black,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                return ChatBubble(
-                  text: messages[index],
-                  index: index,
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: TextField(
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                hintText: 'Type a message...',
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 15,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: Colors.black),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(
-                    color: kPrimaryColor,
-                    width: 2,
+            body: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    reverse: true,
+                    controller:
+                        scrollController, // Attach ScrollController
+                    itemCount: messagesList.length,
+                    itemBuilder: (context, index) {
+                      return ChatBubble(
+                        message: messagesList[index],
+                        index: index,
+                      );
+                    },
                   ),
                 ),
-                suffixIcon: IconButton(
-                  color: kPrimaryColor,
-                  hoverColor: Colors.blue,
-                  icon: Icon(Icons.send),
-                  onPressed: () {},
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: TextField(
+                    controller: messageController,
+                    onSubmitted: (data) {
+                      messages.add({
+                        kMessage: data,
+                        kCreatedTime: DateTime.now(),
+                      });
+                      messageController.clear();
+                      scrollController.animateTo(
+                        0,
+                        duration: Duration(seconds: 1),
+                        curve: Curves.fastEaseInToSlowEaseOut,
+                      ); // Scroll to the bottom
+                    },
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      hintText: 'Type a message...',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: kPrimaryColor,
+                          width: 2,
+                        ),
+                      ),
+                      suffixIcon: IconButton(
+                        color: kPrimaryColor,
+                        hoverColor: Colors.blue,
+                        icon: Icon(Icons.send),
+                        onPressed: () {
+                          if (messageController.text.isNotEmpty) {
+                            messages.add({
+                              kMessage: messageController.text,
+                              kCreatedTime: DateTime.now(),
+                            });
+                            messageController.clear();
+                            scrollController.animateTo(
+                              scrollController
+                                  .position
+                                  .maxScrollExtent,
+                              duration: Duration(seconds: 1),
+                              curve: Curves.fastEaseInToSlowEaseOut,
+                            ); // Scroll to the bottomroll to the bottom
+                          }
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
+          );
+        } else {
+          return Text('Loading...');
+        }
+      },
     );
   }
 }
