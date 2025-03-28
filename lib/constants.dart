@@ -6,3 +6,4 @@ const kTitle = 'Scholar Chat';
 const kCollectionMessages = 'messages';
 const kMessage = 'message';
 const kCreatedTime = 'CreatedAt';
+const kId = 'id';

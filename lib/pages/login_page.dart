@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                   onChange: (data) {
                     password = data;
                   },
+                  isPassword: true,
                   labelText: 'Enter your password',
                   hintText: 'At least 8 characters',
                 ),
@@ -91,34 +92,42 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {
                         isLoading = true;
                       });
-
                       try {
                         await LogInUser();
                         ShowSnackBar(
+                          // ignore: use_build_context_synchronously
                           context,
                           message: 'Successfully Logged in',
                           color: Colors.green,
                         );
-                        Navigator.pushNamed(context, ChatPage.id);
+                        Navigator.pushNamed(
+                          // ignore: use_build_context_synchronously
+                          context,
+                          ChatPage.id,
+                          arguments: email,
+                        );
                       } on FirebaseAuthException catch (e) {
-                        print(e.code);
                         if (e.code == 'user-not-found') {
                           ShowSnackBar(
+                            // ignore: use_build_context_synchronously
                             context,
-                            message: 'User not found',
+                            message: 'This email is not registered'
                           );
                         } else if (e.code == 'wrong-password') {
                           ShowSnackBar(
+                            // ignore: use_build_context_synchronously
                             context,
                             message: 'Wrong password',
                           );
                         } else if (e.code == 'invalid-email') {
                           ShowSnackBar(
+                            // ignore: use_build_context_synchronously
                             context,
                             message: 'Please enter a valid email',
                           );
                         } else if (e.code == 'too-many-requests') {
                           ShowSnackBar(
+                            // ignore: use_build_context_synchronously
                             context,
                             message:
                                 'Too many requests. Please try again later.',
@@ -126,6 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       } catch (e) {
                         ShowSnackBar(
+                          // ignore: use_build_context_synchronously
                           context,
                           message: 'Oops! Something went wrong',
                         );

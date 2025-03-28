@@ -83,6 +83,7 @@ class _RegesterPageState extends State<RegesterPage> {
                   },
                   labelText: 'Enter your password',
                   hintText: 'At least 8 characters',
+                  isPassword: true,
                 ),
                 SizedBox(height: 20),
                 CustomButton(

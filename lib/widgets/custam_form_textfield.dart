@@ -7,10 +7,12 @@ class CustamFormTextField extends StatelessWidget {
     required this.labelText,
     required this.hintText,
     this.onChange,
+    this.isPassword = false,
   });
   final String labelText;
   final String hintText;
   Function(String)? onChange;
+  final bool isPassword;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,6 +20,7 @@ class CustamFormTextField extends StatelessWidget {
       child: SizedBox(
         width: 400,
         child: TextFormField(
+          obscureText: isPassword == true ? true : false,
           validator: (data) {
             if (data!.isEmpty) {
               return 'This field is required';

@@ -23,6 +23,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    var email = ModalRoute.of(context)?.settings.arguments as String;
     return StreamBuilder<QuerySnapshot>(
       stream:
           messages
@@ -68,10 +69,11 @@ class _ChatPageState extends State<ChatPage> {
                         scrollController, // Attach ScrollController
                     itemCount: messagesList.length,
                     itemBuilder: (context, index) {
-                      return ChatBubble(
-                        message: messagesList[index],
-                        index: index,
-                      );
+                      return messagesList[index].id == email
+                          ? ChatBubble(message: messagesList[index])
+                          : ChatBubbleForward(
+                            message: messagesList[index],
+                          );
                     },
                   ),
                 ),
@@ -83,6 +85,7 @@ class _ChatPageState extends State<ChatPage> {
                       messages.add({
                         kMessage: data,
                         kCreatedTime: DateTime.now(),
+                        kId: email,
                       });
                       messageController.clear();
                       scrollController.animateTo(
@@ -118,12 +121,11 @@ class _ChatPageState extends State<ChatPage> {
                             messages.add({
                               kMessage: messageController.text,
                               kCreatedTime: DateTime.now(),
+                              kId: email,
                             });
                             messageController.clear();
                             scrollController.animateTo(
-                              scrollController
-                                  .position
-                                  .maxScrollExtent,
+                              0,
                               duration: Duration(seconds: 1),
                               curve: Curves.fastEaseInToSlowEaseOut,
                             ); // Scroll to the bottomroll to the bottom
