@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class CustamFormTextField extends StatelessWidget {
-  CustamFormTextField({
+class CustomFormTextField extends StatelessWidget {
+  CustomFormTextField({
     super.key,
     required this.labelText,
     required this.hintText,
