@@ -3,7 +3,7 @@ import 'package:scholar_chat/models/message_model.dart';
 
 class ChatBubbleForward extends StatelessWidget {
   const ChatBubbleForward({super.key, required this.message});
-  final Message message;
+  final MessageModel message;
 
   @override
   Widget build(BuildContext context) {

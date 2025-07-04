@@ -32,10 +32,10 @@ class _ChatPageState extends State<ChatPage> {
               .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          List<Message> messagesList = [];
+          List<MessageModel> messagesList = [];
           for (int i = 0; i < snapshot.data!.docs.length; i++) {
             messagesList.add(
-              Message.fromJson(snapshot.data!.docs[i]),
+              MessageModel.fromJson(snapshot.data!.docs[i]),
             );
           }
           return Scaffold(
