@@ -139,6 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                           context,
                           message: 'Oops! Something went wrong',
                         );
+                        debugPrint('Error : ${e.toString()}');
                       }
                       setState(() {
                         isLoading = false;

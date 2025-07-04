@@ -132,6 +132,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           context,
                           message: 'opps! something went wrong',
                         );
+                        debugPrint('Error : ${e.toString()}');
                       }
                       setState(() {
                         isLoading = false;
