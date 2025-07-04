@@ -4,19 +4,19 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:scholar_chat/constants.dart';
 import 'package:scholar_chat/helper/show_snack_bar.dart';
 import 'package:scholar_chat/pages/chat_page.dart';
-import 'package:scholar_chat/widgets/custam_form_textfield.dart';
+import 'package:scholar_chat/widgets/custom_form_textfield.dart';
 import 'package:scholar_chat/widgets/custom_button.dart';
 
 // ignore: must_be_immutable
-class RegesterPage extends StatefulWidget {
-  const RegesterPage({super.key});
-  static String id = 'RegesterPage';
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+  static String id = 'RegisterPage';
 
   @override
-  State<RegesterPage> createState() => _RegesterPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegesterPageState extends State<RegesterPage> {
+class _RegisterPageState extends State<RegisterPage> {
   String? email;
   String? password;
   bool isLoading = false;
@@ -57,7 +57,7 @@ class _RegesterPageState extends State<RegesterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'REGESTER',
+                      'REGISTER',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -68,7 +68,7 @@ class _RegesterPageState extends State<RegesterPage> {
                 ),
                 SizedBox(height: 20),
                 // Email TextField
-                CustamFormTextField(
+                CustomFormTextField(
                   onChange: (data) {
                     email = data;
                   },
@@ -77,7 +77,7 @@ class _RegesterPageState extends State<RegesterPage> {
                 ),
                 SizedBox(height: 20),
                 // Password TextField
-                CustamFormTextField(
+                CustomFormTextField(
                   onChange: (data) {
                     password = data;
                   },
@@ -93,11 +93,11 @@ class _RegesterPageState extends State<RegesterPage> {
                         isLoading = true;
                       });
                       try {
-                        await RegesterUser();
+                        await RegisterUser();
                         ShowSnackBar(
                           // ignore: use_build_context_synchronously
                           context,
-                          message: 'Successfully regestered',
+                          message: 'Successfully registered',
                           color: Colors.green,
                         );
                         Navigator.pushNamed(
@@ -136,9 +136,9 @@ class _RegesterPageState extends State<RegesterPage> {
                       setState(() {
                         isLoading = false;
                       });
-                    } else {}
+                    }
                   },
-                  text: 'REGESTER',
+                  text: 'REGISTER',
                 ),
                 SizedBox(height: 20),
                 Row(
@@ -170,13 +170,16 @@ class _RegesterPageState extends State<RegesterPage> {
   }
 
   // ignore: non_constant_identifier_names
-
-  // ignore: non_constant_identifier_names
-  Future<void> RegesterUser() async {
+  Future<void> RegisterUser() async {
     final auth = FirebaseAuth.instance;
+
+    if (email == null || password == null) {
+      throw Exception('Email and password must not be null');
+    }
+
     UserCredential user = await auth.createUserWithEmailAndPassword(
-      email: email ?? 'Enter your email',
-      password: password ?? 'Enter your password',
+      email: email!,
+      password: password!,
     );
   }
 }
