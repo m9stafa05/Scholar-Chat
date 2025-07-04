@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scholar_chat/constants.dart';
-import 'package:scholar_chat/models/message.dart';
+import 'package:scholar_chat/models/message_model.dart';
 import 'package:scholar_chat/widgets/chat_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -23,7 +23,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    var email = ModalRoute.of(context)?.settings.arguments as String;
+    var email = ModalRoute.of(context)?.settings.arguments as String?;
     return StreamBuilder<QuerySnapshot>(
       stream:
           messages
