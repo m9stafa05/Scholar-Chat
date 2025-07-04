@@ -5,7 +5,7 @@ import 'package:scholar_chat/constants.dart';
 import 'package:scholar_chat/helper/show_snack_bar.dart';
 import 'package:scholar_chat/pages/chat_page.dart';
 import 'package:scholar_chat/pages/regester_page.dart';
-import 'package:scholar_chat/widgets/custam_form_textfield.dart';
+import 'package:scholar_chat/widgets/custom_form_textfield.dart';
 import 'package:scholar_chat/widgets/custom_button.dart';
 
 // m9stafa05@gmail.com
@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
                 // Email TextField
-                CustamFormTextField(
+                CustomFormTextField(
                   onChange: (data) {
                     email = data;
                   },
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
                 // Password TextField
-                CustamFormTextField(
+                CustomFormTextField(
                   onChange: (data) {
                     password = data;
                   },
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                           ShowSnackBar(
                             // ignore: use_build_context_synchronously
                             context,
-                            message: 'This email is not registered'
+                            message: 'This email is not registered',
                           );
                         } else if (e.code == 'wrong-password') {
                           ShowSnackBar(
@@ -157,10 +157,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, RegesterPage.id);
+                        Navigator.pushNamed(context, RegisterPage.id);
                       },
                       child: Text(
-                        ' REGESTER',
+                        ' REGISTER',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
