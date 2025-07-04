@@ -3,6 +3,7 @@ import 'package:scholar_chat/constants.dart';
 import 'package:scholar_chat/models/message_model.dart';
 import 'package:scholar_chat/widgets/chat_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:scholar_chat/widgets/chat_bubble_forward.dart';
 
 // ignore: must_be_immutable
 class ChatPage extends StatefulWidget {
