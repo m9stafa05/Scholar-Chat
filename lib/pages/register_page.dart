@@ -5,7 +5,7 @@ import 'package:scholar_chat/constants.dart';
 import 'package:scholar_chat/controllers/register_cubit/cubit/register_cubit.dart';
 import 'package:scholar_chat/helper/show_snack_bar.dart';
 import 'package:scholar_chat/pages/chat_page.dart';
-import 'package:scholar_chat/widgets/custom_form_textfield.dart';
+import 'package:scholar_chat/widgets/custom_form_text_field.dart';
 import 'package:scholar_chat/widgets/custom_button.dart';
 
 // ignore: must_be_immutable
