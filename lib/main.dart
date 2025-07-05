@@ -6,6 +6,7 @@ import 'package:scholar_chat/firebase_options.dart';
 import 'package:scholar_chat/pages/chat_page.dart';
 import 'package:scholar_chat/pages/login_page.dart';
 import 'package:scholar_chat/pages/register_page.dart';
+import 'controllers/auth_bloc/auth_bloc.dart';
 import 'controllers/auth_cubit/auth_cubit.dart';
 
 // flutter build web --release && firebase init hosting && firebase deploy --only hosting -m 'V 1.0.0'
@@ -24,6 +25,7 @@ class ScholarChat extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+        BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
         BlocProvider<ChatCubit>(create: (context) => ChatCubit()),
       ],
       child: MaterialApp(
