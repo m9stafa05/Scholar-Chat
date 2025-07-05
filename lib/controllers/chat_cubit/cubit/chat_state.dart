@@ -13,7 +13,7 @@ final class ChatInitial extends ChatState {}
 final class ChatSuccess extends ChatState {
   List<MessageModel> messageList;
 
-  ChatSuccess(this.messageList);
+  ChatSuccess({required this.messageList});
 }
 
 final class ChatLoading extends ChatState {}
