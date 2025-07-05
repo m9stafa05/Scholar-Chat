@@ -5,9 +5,11 @@ import 'package:scholar_chat/constants.dart';
 import 'package:scholar_chat/controllers/login_cubit/login_cubit.dart';
 import 'package:scholar_chat/helper/show_snack_bar.dart';
 import 'package:scholar_chat/pages/chat_page.dart';
-import 'package:scholar_chat/pages/regester_page.dart';
-import 'package:scholar_chat/widgets/custom_form_textfield.dart';
+import 'package:scholar_chat/pages/register_page.dart';
+import 'package:scholar_chat/widgets/custom_form_text_field.dart';
 import 'package:scholar_chat/widgets/custom_button.dart';
+
+import '../controllers/chat_cubit/cubit/chat_cubit.dart';
 
 // m9stafa05@gmail.com
 // mer@gmail.com
@@ -46,6 +48,7 @@ class LoginPage extends StatelessWidget {
             if (state is LoginLoading) {
               isLoading = true;
             } else if (state is LoginSuccess) {
+              BlocProvider.of<ChatCubit>(context).getMessages();
               isLoading = false;
               Navigator.pushNamed(
                 context,
