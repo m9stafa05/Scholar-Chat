@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:scholar_chat/constants.dart';
-import 'package:scholar_chat/controllers/login_cubit/login_cubit.dart';
 import 'package:scholar_chat/helper/show_snack_bar.dart';
 import 'package:scholar_chat/pages/chat_page.dart';
 import 'package:scholar_chat/pages/register_page.dart';
 import 'package:scholar_chat/widgets/custom_form_text_field.dart';
 import 'package:scholar_chat/widgets/custom_button.dart';
-
+import '../controllers/auth_cubit/auth_cubit.dart';
 import '../controllers/chat_cubit/cubit/chat_cubit.dart';
 
 // m9stafa05@gmail.com
@@ -43,7 +42,7 @@ class LoginPage extends StatelessWidget {
         backgroundColor: Color(0xff274460),
       ),
       body: Center(
-        child: BlocConsumer<LoginCubit, LoginState>(
+        child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is LoginLoading) {
               isLoading = true;
@@ -105,7 +104,7 @@ class LoginPage extends StatelessWidget {
                       CustomButton(
                         onTap: () {
                           if (formKey.currentState!.validate()) {
-                            BlocProvider.of<LoginCubit>(
+                            BlocProvider.of<AuthCubit>(
                               context,
                             ).logInUser(
                               email: email!,
