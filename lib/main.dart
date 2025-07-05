@@ -7,7 +7,7 @@ import 'package:scholar_chat/controllers/register_cubit/cubit/register_cubit.dar
 import 'package:scholar_chat/firebase_options.dart';
 import 'package:scholar_chat/pages/chat_page.dart';
 import 'package:scholar_chat/pages/login_page.dart';
-import 'package:scholar_chat/pages/regester_page.dart';
+import 'package:scholar_chat/pages/register_page.dart';
 
 // flutter build web --release && firebase init hosting && firebase deploy --only hosting -m 'V 1.0.0'
 // firebase deploy --only hosting -m ' V 1.0.1'
