@@ -65,5 +65,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         debugPrint(e.toString());
       }
     });
+
+    @override
+    // ignore: unused_element
+    void onTransition(Transition<AuthEvent, AuthState> transition) {
+      super.onTransition(transition);
+      debugPrint(transition.toString());
+    }
   }
 }
